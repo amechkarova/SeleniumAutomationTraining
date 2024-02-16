@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Tests", "..\School.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFirstMsTestProject", "..\MyFirstMsTestProject\MyFirstMsTestProject.csproj", "{5740C692-466F-4733-9BB8-684C2CC2EB69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDriverTraining", "..\WebDriverTraining\WebDriverTraining.csproj", "{CBFEE4B6-2272-4050-B212-60DBD7BF2E80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5740C692-466F-4733-9BB8-684C2CC2EB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5740C692-466F-4733-9BB8-684C2CC2EB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5740C692-466F-4733-9BB8-684C2CC2EB69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBFEE4B6-2272-4050-B212-60DBD7BF2E80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBFEE4B6-2272-4050-B212-60DBD7BF2E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBFEE4B6-2272-4050-B212-60DBD7BF2E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBFEE4B6-2272-4050-B212-60DBD7BF2E80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
