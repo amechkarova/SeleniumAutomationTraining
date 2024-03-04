@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace AutomateThePlanetTraining.Model
 {
+    //implementing IComparable interface give us the possibility
+    //to compare objects and thus the objects can be sorted
     internal class Person : IComparable<Person>, IEquatable<Person>
     {
         public Person(string name, int age)
