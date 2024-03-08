@@ -4,6 +4,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using System;
 using System.Xml.Linq;
 
 namespace WebDriverTraining
@@ -28,9 +29,9 @@ namespace WebDriverTraining
             _driver.Dispose();
         }
         [Test]
-        public void VerifyValidationMessageIsDisplayed_When_WrongEmailAndPasswordAreEntered()
+        public void VerifyValidationMessageIsDisplayed_When_WrongEmailAndPasswordAreEnteredForHostingLogin()
         {
-
+            AcceptCookies(_driver, _wait);
             IWebElement userID = _driver.FindElement(By.Id("userId"));
             IWebElement nextButton = _driver.FindElement(By.XPath("//button[contains(@class, 'login-next')]"));
             userID.Clear();
@@ -47,29 +48,51 @@ namespace WebDriverTraining
         }
 
         [Test]
-        public void Login_When_EmailAndPasswordAreEmpty()
+        public void VerifyValidationMessageIsDisplayedForWebMailLogin_When_InvalidEmailIsUsed()
         {
+            AcceptCookies(_driver, _wait);
             IWebElement webmailLogin = _driver.FindElement(By.XPath("//div[@role='tab'][@tabindex=-1]"));
             webmailLogin.Click();
             IWebElement emailField = _driver.FindElement(By.Id("emailId"));
             emailField.Clear();
-            IWebElement errorMsg = _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@role='alert'][contains(@class, 'error')]")));
-            ClassicAssert.AreEqual(" Email is not valid ", errorMsg.Text);
+            emailField.SendKeys("invalidEmail");
+            emailField.SendKeys(Keys.Tab);
+            IWebElement logInbutton = _driver.FindElement(By.XPath("//button[contains(@class, 'login-next')]"));
+            ClassicAssert.IsFalse(logInbutton.Enabled);
 
         }
 
         [Test]
-        public void VerifyLogin_When_ValidUserIsUsed()
+        public void VerifyValidationMessageIsDisplayedWebMailLogin_When_EmailIsEmpty()
         {
+            AcceptCookies(_driver, _wait);
             IWebElement webmailLogin = _driver.FindElement(By.XPath("//div[@role='tab'][@tabindex=-1]"));
             webmailLogin.Click();
             IWebElement emailField = _driver.FindElement(By.Id("emailId"));
             emailField.Clear();
+            emailField.SendKeys(Keys.Tab);
             IWebElement errorMsg = _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@role='alert'][contains(@class, 'error')]")));
-            ClassicAssert.AreEqual(" Email is not valid ", errorMsg.Text);
-
+            ClassicAssert.AreEqual("Email is not valid", errorMsg.Text);
         }
 
+        [Test]
+        public void VerifyNextButtonIsDisabledForHostingLogin_When_UserIdIsEmpty()
+        {
+            AcceptCookies(_driver, _wait);
+            IWebElement userId = _driver.FindElement(By.Id("userId"));
+            userId.Clear();
+            userId.SendKeys(Keys.Tab);
+            IWebElement nextButton = _driver.FindElement(By.XPath("//button[contains(@class, 'login-next')]"));
+            ClassicAssert.IsFalse(nextButton.Enabled);
+        }
+        private void AcceptCookies(IWebDriver driver, WebDriverWait wait)
+        {
+            wait.Until(ExpectedConditions.ElementExists(By.XPath("//button[@id='onetrust-accept-btn-handler']")));
+            IWebElement gotItButton = driver.FindElement(By.XPath("//button[@id='onetrust-accept-btn-handler']"));
+            Actions action = new Actions(_driver);
+            action.MoveToElement(gotItButton).Perform();
+            gotItButton.Click();
+        }
         public void CreateEvent_When_UserIsLoggedIn()
         {
             IWebElement webmailLogin = _driver.FindElement(By.XPath("//div[@role='tab'][@tabindex=-1]"));

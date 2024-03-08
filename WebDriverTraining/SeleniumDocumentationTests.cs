@@ -18,7 +18,7 @@ namespace WebDriverTraining
         {
             _driver = new ChromeDriver();
             _driver.Manage().Window.Maximize();
-            _wait = new WebDriverWait(_driver,TimeSpan.FromSeconds(30));
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(30));
         }
 
         [TearDown]
@@ -27,25 +27,61 @@ namespace WebDriverTraining
             _driver.Dispose();
         }
         [Test]
-        public void CorrectPagesAreLoaded()
+        public void CorrectPagesIsLoaded_When_ComponentsIsClickedInLeftNavigationBar()
         {
-            _driver.Navigate().GoToUrl("https://www.selenium.dev/documentation/webdriver/getting_started");
+            NavigateToUrl("https://www.selenium.dev/documentation/webdriver/getting_started");
             IWebElement gridAnchor = _driver.FindElement(By.Id("m-documentationgrid"));
             //gridAnchor.Click();
-            //when the test is executed on a smalled screen and there is a scroll on the page
+            //when the test is executed on a small screen and there is a scroll on the page
             //the grid link is not visible, therefore one of the solutions is to
-            //move to the element and than click it
-            Actions actions = new Actions(_driver);
-            actions.MoveToElement(gridAnchor).Perform();
-            gridAnchor.Click();
+            //move to the element and then click it
+            MoveToElementAndClick(gridAnchor);
 
             IWebElement componentAnchor = _driver.FindElement(By.Id("m-documentationgridcomponents"));
             componentAnchor.Click();
-
-            ClassicAssert.AreEqual("https://www.selenium.dev/documentation/grid/components/", _driver.Url);
+            CorrectPageIsLoadedUrl("https://www.selenium.dev/documentation/grid/components/", _driver);
 
             IWebElement h1Title = _driver.FindElement(By.TagName("h1"));
-            ClassicAssert.AreEqual("Selenium Grid Components", h1Title.Text);
+            CorrectPageIsLoaded("Selenium Grid Components", h1Title.Text);
+            
+        }
+
+        [Test]
+        public void CorrectPageIsLoaded_When_GitHubLinkIsCliked()
+        {
+            NavigateToUrl("https://www.selenium.dev/documentation/grid/components/");
+            IWebElement githubRepoLink = _driver.FindElement(By.XPath("//footer//a[contains(@href, 'github')]"));
+            MoveToElementAndClick(githubRepoLink);
+            CorrectPageIsLoadedUrl("https://github.com/seleniumhq/selenium", _driver);
+            IWebElement h1Title = _driver.FindElement(By.XPath("//a[@id = 'user-content-selenium']//preceding-sibling::h1"));
+            CorrectPageIsLoaded("Selenium", h1Title.Text);
+
+        }
+
+        private void NavigateToUrl(string url)
+        {
+            _driver.Navigate().GoToUrl(url);
+        }
+        private void MoveToElementAndClick(IWebElement element)
+        {
+            Actions actions = new Actions(_driver);
+            actions.MoveToElement(element).Perform();
+            element.Click();
+        }
+
+        private void CorrectPageIsLoaded(string expected, string actual)
+        {
+            ClassicAssert.AreEqual(expected, actual);
+        }
+
+        private void CorrectPageIsLoadedUrl(string expected, IWebDriver driver)
+        {
+            List<string> browserTabs = new List<string>(driver.WindowHandles);
+            if(browserTabs.Count != 1)
+            {
+                driver.SwitchTo().Window(browserTabs[1]);
+            }   
+            ClassicAssert.AreEqual(expected, driver.Url);
         }
     }
 }
