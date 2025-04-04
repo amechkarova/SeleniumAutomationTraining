@@ -43,8 +43,7 @@ namespace WebDriverTraining
             IWebElement nextButton2 = _driver.FindElement(By.XPath("//button[contains(@class, 'login-next')]"));
             nextButton2.Click();
             IWebElement wrongCredentialsMessage = _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[contains(@class, 'reg-snackbar-message')]/span")));
-            //IWebElement wrongCredentialsMessage = _driver.FindElement(By.XPath("//span[contains(@class, 'reg-snackbar-message')]/span"));
-            ClassicAssert.AreEqual("Incorrect user ID and/or password. Please try again.", wrongCredentialsMessage.Text);
+            Assert.That(wrongCredentialsMessage.Text, Is.EqualTo("Incorrect user ID and/or password. Please try again."));
         }
 
         [Test]
@@ -72,7 +71,7 @@ namespace WebDriverTraining
             emailField.Clear();
             emailField.SendKeys(Keys.Tab);
             IWebElement errorMsg = _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@role='alert'][contains(@class, 'error')]")));
-            ClassicAssert.AreEqual("Email is not valid", errorMsg.Text);
+            Assert.That(errorMsg.Text, Is.EqualTo("Email is not valid"));
         }
 
         [Test]
@@ -100,7 +99,7 @@ namespace WebDriverTraining
             IWebElement emailField = _driver.FindElement(By.Id("emailId"));
             emailField.Clear();
             IWebElement errorMsg = _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@role='alert'][contains(@class, 'error')]")));
-            ClassicAssert.AreEqual(" Email is not valid ", errorMsg.Text);
+            Assert.That(errorMsg.Text, Is.EqualTo(" Email is not valid "));
 
         }
     }

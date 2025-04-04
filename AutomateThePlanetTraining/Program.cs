@@ -144,11 +144,11 @@ namespace AutomateThePlanetTraining
                 Console.WriteLine(i);
                 i++;
             }
-            //exercise 19: Rrint all numbers from 1 to 30 that are not divisible by 3 and 7 at the same time
+            //exercise 19: Print all numbers from 1 to 30 that are not divisible by 3 and 7 at the same time
             i = 1;
             while (i <= 30)
             {
-                if ((i % 3 != 0 && i % 7 != 0))
+                if (i % 3 != 0 && i % 7 != 0)
                 {
                     Console.WriteLine(i);
                 }

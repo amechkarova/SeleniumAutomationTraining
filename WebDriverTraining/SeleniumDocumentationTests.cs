@@ -31,6 +31,7 @@ namespace WebDriverTraining
         {
             NavigateToUrl("https://www.selenium.dev/documentation/webdriver/getting_started");
             IWebElement gridAnchor = _driver.FindElement(By.Id("m-documentationgrid"));
+
             //gridAnchor.Click();
             //when the test is executed on a small screen and there is a scroll on the page
             //the grid link is not visible, therefore one of the solutions is to
@@ -53,7 +54,7 @@ namespace WebDriverTraining
             IWebElement githubRepoLink = _driver.FindElement(By.XPath("//footer//a[contains(@href, 'github')]"));
             MoveToElementAndClick(githubRepoLink);
             CorrectPageIsLoadedUrl("https://github.com/seleniumhq/selenium", _driver);
-            IWebElement h1Title = _driver.FindElement(By.XPath("//a[@id = 'user-content-selenium']//preceding-sibling::h1"));
+            IWebElement h1Title = _driver.FindElement(By.XPath("//a[contains(@href, 'selenium.dev')]//parent::h1"));
             CorrectPageIsLoaded("Selenium", h1Title.Text);
 
         }
@@ -71,7 +72,7 @@ namespace WebDriverTraining
 
         private void CorrectPageIsLoaded(string expected, string actual)
         {
-            ClassicAssert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         private void CorrectPageIsLoadedUrl(string expected, IWebDriver driver)
@@ -80,8 +81,8 @@ namespace WebDriverTraining
             if(browserTabs.Count != 1)
             {
                 driver.SwitchTo().Window(browserTabs[1]);
-            }   
-            ClassicAssert.AreEqual(expected, driver.Url);
+            }
+            Assert.That(driver.Url, Is.EqualTo(expected));
         }
     }
 }

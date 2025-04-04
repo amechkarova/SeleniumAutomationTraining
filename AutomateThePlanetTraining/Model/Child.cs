@@ -24,6 +24,5 @@ namespace AutomateThePlanetTraining.Model
                 base.Age = value;
             }
         }
-
     }
 }

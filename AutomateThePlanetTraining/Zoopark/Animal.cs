@@ -8,7 +8,7 @@ namespace AutomateThePlanetTraining.Zoopark
 {
     internal abstract class Animal
     {
-        protected Animal(string name, int age, bool isFemale) 
+        protected Animal(string name, int? age, bool isFemale) 
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -25,7 +25,7 @@ namespace AutomateThePlanetTraining.Zoopark
         }
 
         public string Name { get; set; }
-        public int Age {  get; set; }
+        public int? Age {  get; set; }
         public bool IsFemale { get; set; }
         public abstract string AnimalSound { get; }
 
